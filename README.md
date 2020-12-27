@@ -1,6 +1,6 @@
 # `hejhog`
 
-I wanted a simple browser fowarding proxy cli tool that behaved like tshark where you can configure the verbosity and output of the proxy using command line flags.
+I wanted a simple unixy browser fowarding proxy cli tool that behaved like tshark where you can configure the verbosity and output of the proxy using command line flags.
 I wanted a command line tool to display certain information that was easy to install on different operating systems. This tool has been tested on linux and windows.
 
 ## `usage`
@@ -51,6 +51,14 @@ Go to browser preferences / privacy / certificates... add your self signed certi
 ## `configure the browser to hejhog as a proxy server`
 ```
 Go to browser preferences / networks / proxy settings: configure http & https proxy to the port
+```
+
+## `saving a session`
+
+Hejhog works entirely as a text stresm so you can easily store the output of hejhog to a text file for later analysis.
+
+```
+hejhog -v > ./log.txt
 ```
 
 ## `install`
