@@ -5,9 +5,11 @@ I wanted a command line tool to display certain information that was easy to ins
 
 ## `usage`
 
-* Create some self signed certificates* first in the current working directory, install hejhog globall and run the `hejhog` command.
+* Create some self signed certificates* in the current working directory,
+* install hejhog globally (npm i hejhog -g) and run the `hejhog` command.
 * Configure your browser to use `localhost:8080` as the http and https proxy.
 * Add a self signed certificate authority to the browser.
+
 ```
 > hejhog --help
 > hejhog --just-urls
