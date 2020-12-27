@@ -31,6 +31,7 @@ var instructions = `
     request-headers     show request headers
     response-headers    show response headers
     v, V or verbose     show all information
+    html                show just html
     json                show json data
     params              show form request parameters
     warnings            show all warnings
@@ -97,11 +98,12 @@ if (options['just-urls']) {
     if (VERBOSE || options['request-headers']) console.log(data)
   });
 
-  proxy.intercept({ phase: 'response' }, function (req, res) {
+  proxy.intercept({ phase: 'response', as: 'string' }, function (req, res) {
     if (VERBOSE || options['response-headers']) console.log(res.headers)
     if (VERBOSE || !options['hide-urls']) {
       console.log('<response>', req.url, res.statusCode)
     }
+    console.log(res.string)
   })
 }
 
@@ -128,5 +130,15 @@ if (VERBOSE || options.params)  {
     if (Object.keys(req.params).length) {
       console.log('<request> [params]', Object.assign({}, req.params))
     }
+  })
+}
+
+if (VERBOSE || options.html)  {
+  proxy.intercept({
+    phase: 'response',
+    mimeType: 'text/html',
+    as: '$'
+  }, function (req, res) {
+    console.log('<response> ', res.$.html())
   })
 }
