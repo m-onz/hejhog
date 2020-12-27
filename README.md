@@ -2,8 +2,7 @@
 
 <img src="Hipster-hedgehog-black.jpg" />
 
-I wanted a simple unixy browser fowarding proxy cli tool that behaved like tshark where you can configure the verbosity and output of the proxy using command line flags.
-I wanted a command line tool to display certain information that was easy to install on different operating systems. This tool has been tested on linux and windows.
+A simple browser fowarding proxy cli tool useful for analysing web applications.
 
 ## `usage`
 
@@ -15,20 +14,12 @@ I wanted a command line tool to display certain information that was easy to ins
 ```
 > hejhog --help
 > hejhog --just-urls
-
 ```
 
 You will then see the throughput when connecting to `duckduckgo.com` in the browser...
 
 ```
-
 <hejhog> listening @ 8080
- <request>  https: // duckduckgo.com /
- <request>  https: // duckduckgo.com /font/ProximaNova-Reg-webfont.woff2
- <request>  https: // incoming.telemetry.mozilla.org /submit/activity-stream/sessions/1/0da2c611-8fef-4041-8215-dc167fbf2922
- <request>  https: // improving.duckduckgo.com /t/hi?2512489&b=firefox&atbi=false&ei=true&i=false&d=d&l=en_US&p=windows&atb=v253-5&va=_&atbva=_&g=__
- <request>  https: // duckduckgo.com /ac/?q=k&kl=wt-wt
-
 ```
 
 ## `intercepting https` *
