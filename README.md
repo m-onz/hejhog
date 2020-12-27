@@ -55,7 +55,7 @@ Go to browser preferences / networks / proxy settings: configure http & https pr
 
 ## `saving a session`
 
-Hejhog works entirely as a text stresm so you can easily store the output of hejhog to a text file for later analysis.
+Hejhog works as a ut8 encoded text stream so you can easily store the output of hejhog to a text file for later analysis.
 
 ```
 hejhog -v > ./log.txt
