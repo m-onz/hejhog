@@ -33,10 +33,13 @@ var instructions = `
     v, V or verbose     show all information
     json                show json data
     params              show form request parameters
+    warnings            show all warnings
 
   generating self signed certificates (with OpenSSL)
     openssl genrsa -out ./key.pem 2048
     openssl req -x509 -new -nodes -key ./key.pem -days 1024 -out crt.pem -subj "/C=US/ST=Utah/L=Provo/O=ACME Signing Authority Inc/CN=example.com"
+
+  then add certificate authority to browser via settings or preferences
 
 `
 
@@ -64,11 +67,11 @@ var proxy = hoxy.createServer({
   console.log('<hejhog> listening @', options.port)
 });
 
-if (VERBOSE) proxy.log('error warn debug', process.stderr);
-if (VERBOSE) proxy.log('info', process.stdout);
+if (VERBOSE && options.warnings) proxy.log('error warn debug', process.stderr);
+if (VERBOSE && options.warnings) proxy.log('info', process.stdout);
 
 process.on('uncaughtException', function (err) {
-  console.error(err.stack, err);
+  if (VERBOSE && options.warnings) console.error(err.stack, err);
 });
 
 if (options['just-urls']) {
