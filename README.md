@@ -6,7 +6,16 @@ I wanted a command line tool to display certain information that was easy to ins
 ## usage
 
 ```
-> hejhog --just-urls
+> hejhog --just-urls --help
+
+```
+
+* Configure your browser to use `localhost:8080` as the http and https proxy.
+* Add a self signed certificate authority to the browser.
+
+You will then see the throughput
+
+```
 
 <hejhog> listening @ 8080
  <request>  https: // duckduckgo.com /
@@ -14,33 +23,16 @@ I wanted a command line tool to display certain information that was easy to ins
  <request>  https: // incoming.telemetry.mozilla.org /submit/activity-stream/sessions/1/0da2c611-8fef-4041-8215-dc167fbf2922
  <request>  https: // improving.duckduckgo.com /t/hi?2512489&b=firefox&atbi=false&ei=true&i=false&d=d&l=en_US&p=windows&atb=v253-5&va=_&atbva=_&g=__
  <request>  https: // duckduckgo.com /ac/?q=k&kl=wt-wt
+
 ```
+
+## intercepting https
 
 You must set up a self signed cryptographic key and certificate to intercept https traffic.
 This tool has only been tested in https intercepting mode.
 
 Place self signed certificate and keys in the working directory to automatically use them, or alternatively
  provide the ```key``` and ```cert``` parameters directly.
-
-```
-hejhog --help
-hejhog --key ./key.pem --cert ./crt.pem -v
-hejhog --request-headers
-hejhog --response-headers --hide-urls
-hejhog -v # vervose mode
-hejhog --verbose
-hejhog --json
-hejhog -v > ./log.txt # save a session
-```
-
-Will create a proxy server running at `localhost:8080` showing only json requests and responses
-
-```
-# Just form parameters
-hejhog --params --hide-urls
-```
-
-## intercepting https
 
 ## Create a self signed certificate with OpenSSL
 
