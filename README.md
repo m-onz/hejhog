@@ -10,9 +10,9 @@ For windows users... get OpenSSL windows binaries or compile from source... then
 
 ```
 # Create the key
-openssl genrsa -out ~/.ssh/my-private-root-ca.key.pem 2048
+openssl genrsa -out ./key.pem 2048
 # Create the cert
-openssl req -x509 -new -nodes -key ~/.ssh/my-private-root-ca.key.pem -days 1024 -out ~/.ssh/my-private-root-ca.crt.pem -subj "/C=US/ST=Utah/L=Provo/O=ACME Signing Authority Inc/CN=example.com"
+openssl req -x509 -new -nodes -key ./key.pem -days 1024 -out crt.pem -subj "/C=US/ST=Utah/L=Provo/O=ACME Signing Authority Inc/CN=example.com"
 ```
 
 ## add the certificate to the browser

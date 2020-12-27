@@ -6,7 +6,8 @@
     "hedgehog": "bin.js"
   },
   "dependencies": {
-    "hoxy": "^3.3.1"
+    "hoxy": "^3.3.1",
+    "minimist": "^1.2.5"
   },
   "devDependencies": {},
   "repository": {

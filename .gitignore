@@ -1,4 +1,4 @@
-my-private-root-ca.crt.pem
-my-private-root-ca.key.pem
+crt.pem
+key.pem
 node_modules
 package-lock.json
