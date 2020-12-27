@@ -88,7 +88,7 @@ if (options['just-urls']) {
     cycle.data('query', req.query)
   })
   proxy.intercept({ phase: 'response', as: 'string' }, function (req, res, cycle) {
-		var data = {
+    var data = {
       url: req.url,
       protocol: req.protocol,
       port: req.port,
@@ -97,28 +97,28 @@ if (options['just-urls']) {
       headers: req.headers,
       query: Object.assign({}, req.query)
     }
-		if (VERBOSE || options['request-headers']) console.log(data)
+    if (VERBOSE || options['request-headers']) console.log(data)
     if (VERBOSE || options['response-headers']) console.log(res.headers)
     if (VERBOSE || options.html) console.log(res.string)
     if (req.headers.accept.startsWith('image') || !options['hide-urls']) console.log(' <response> [IMAGE] ', req.method.toUpperCase(), req.hostname, ' ', req.url, res.statusCode)
-		  else console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
-	  // testing for XSS
-	  var query = cycle.data('query')
-	  Object.values(query).forEach(function (value) {
-		  if (res.string.includes(value)) {
-		    console.log('...'.repeat(100))
-		    console.log('input reflected in page response ', value, ' found in response')
-		    console.log('...'.repeat(100))
-		  }
-	  })
-	  var params = cycle.data('params')
-	  Object.values(params).forEach(function (value) {
-		  if (res.string.includes(value)) {
-		    console.log('...'.repeat(100))
-		    console.log('params found in page response ', value, ' ')
-		    console.log('...'.repeat(100))
-		  }
-	  })
+    else console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
+    // testing for XSS
+    var query = cycle.data('query')
+    Object.values(query).forEach(function (value) {
+      if (res.string.includes(value)) {
+        console.log('...'.repeat(100))
+        console.log('input reflected in page response ', value, ' found in response')
+        console.log('...'.repeat(100))
+      }
+    })
+    var params = cycle.data('params')
+    Object.values(params).forEach(function (value) {
+      if (res.string.includes(value)) {
+        console.log('...'.repeat(100))
+        console.log('params found in page response ', value, ' ')
+        console.log('...'.repeat(100))
+      }
+    })
   })
 }
 
@@ -143,10 +143,8 @@ if (VERBOSE || options.params)  {
     as: 'params'
   }, function (req, res, cycle) {
     if (Object.keys(req.params).length) {
-	  cycle.data('params', Object.assign({}, req.params))
+      cycle.data('params', Object.assign({}, req.params))
       console.log(' <request> [params]', Object.assign({}, req.params))
     }
   })
 }
-
-
