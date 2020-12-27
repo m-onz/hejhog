@@ -1,11 +1,5 @@
 #!/usr/bin/env node
 
-/*
-
-  hedgehog browser intercepting proxy cli tool
-
-*/
-
 var fs = require('fs')
 var hoxy = require('hoxy')
 var argv = require('minimist')(process.argv.slice(2))
@@ -19,33 +13,38 @@ var defaults = {
 
 var instructions = `
 
-  <hedgehog> browser intercepting proxy cli tool
+<hedgehog> browser intercepting proxy cli tool
 
-  usage: hedgehog <options>
+usage: hedgehog <options>
 
-  options (eg. --urls):
-    cert (optional)     provide a path to pem self signed cert
-    key (optional)      provide a path to pem self signed key
-    hide-urls           hide request urls
-    request-headers     show request headers
-    response-headers    show response headers
-    v, V or verbose     show all information
+example:
+> hedgehog -v # server running @ localhost:8080>
+> hedgehog --port 9000 > log.txt && tail -f ./log.txt
+> hedgehog --json # show json
+> hedgehog --request-headers --hide-urls # hide URLs
+
+options (eg. --urls):
+cert (optional)     provide a path to pem self signed cert
+key (optional)      provide a path to pem self signed key
+hide-urls           hide request urls
+request-headers     show request headers
+response-headers    show response headers
+v, V or verbose     show all information
+json                show json data
+params              show form request parameters
 `
 
 if (Object.keys(argv).length === 1 &&
-  argv._.length === 0 ||
-  argv.hasOwnProperty('help')) {
+argv._.length === 0 ||
+argv.hasOwnProperty('help')) {
   console.log(instructions)
+  return process.exit(0)
 }
 
 var options = Object.assign(defaults, argv)
 
 var VERBOSE = false;
-if (options.v ||
-   options.vv ||
-   options.V  ||
-   options.VV ||
-   options.verbose) {
+if (options.v || options.V  || options.verbose) {
   console.log('<hedgehog> verbose mode...')
   VERBOSE = true;
 }
@@ -59,88 +58,58 @@ var proxy = hoxy.createServer({
   console.log('<hedgehog> listening @', options.port)
 });
 
-// proxy.log('error warn debug', process.stderr);
-// proxy.log('info', process.stdout);
+if (VERBOSE) proxy.log('error warn debug', process.stderr);
+if (VERBOSE) proxy.log('info', process.stdout);
 
 process.on('uncaughtException', function (err) {
-    console.error(err.stack, err);
+  console.error(err.stack, err);
 });
 
-// proxy.intercept({
-//   phase: 'request'
-// }, function(req, resp) {
-//   var data = {
-//     url: req.url,
-//     protocol: req.protocol,
-//     port: req.port,
-//     hostname: req.hostname,
-//     method: req.method,
-//     headers: req.headers,
-//     query: Object.assign({}, req.query)
-//   }
-  // if (!VERBOSE && !options['hide-urls']) console.log('<request> ', data.url)
-  // if (VERBOSE || options['request-headers']) console.log(data)
-// });
-
-// proxy.intercept({ phase: 'response' }, function (req, res) {
-  // if (VERBOSE || options['response-headers']) console.log(res.headers)
-  // if (VERBOSE || !options['hide-urls']) {
-  //   console.log('<response>', req.url, res.statusCode)
-  // }
-// })
-
-// proxy.intercept({
-//   phase: 'request',
-//   as: 'params'
-// }, function (req, res, cycle) {
-//   console.log('<request> ', res.params)
-// })
-
 proxy.intercept({
-  phase: 'request',
-  as: 'json'
-}, function (req, res, cycle) {
-  console.log('<request> ', req.json)
+  phase: 'request'
+}, function(req, resp) {
+  var data = {
+    url: req.url,
+    protocol: req.protocol,
+    port: req.port,
+    hostname: req.hostname,
+    method: req.method,
+    headers: req.headers,
+    query: Object.assign({}, req.query)
+  }
+  if (!VERBOSE && !options['hide-urls']) console.log('<request> ', data.url)
+  if (VERBOSE || options['request-headers']) console.log(data)
+});
+
+proxy.intercept({ phase: 'response' }, function (req, res) {
+  if (VERBOSE || options['response-headers']) console.log(res.headers)
+  if (VERBOSE || !options['hide-urls']) {
+    console.log('<response>', req.url, res.statusCode)
+  }
 })
 
-// proxy.intercept({
-//   phase: 'request',
-//   as: 'string'
-// }, function (req, res, cycle) {
-//   console.log('<request> ', res.string.length)
-// })
+if (VERBOSE || options.json)  {
+  proxy.intercept({
+    phase: 'request',
+    as: 'json'
+  }, function (req, res, cycle) {
+    console.log('<request> [json]', Object.assign({}, req.json))
+  })
+  proxy.intercept({
+    phase: 'response',
+    as: 'json'
+  }, function (req, res, cycle) {
+    console.log('<response> [json]', Object.assign({}, res.json))
+  })
+}
 
-// proxy.intercept({
-//   phase: 'request',
-//   as: 'buffer'
-// }, function (req, res, cycle) {
-//   console.log('<request> has buffer ', res.buffer.length)
-// })
-
-// proxy.intercept({
-//   phase: 'response',
-//   as: 'params'
-// }, function (req, res, cycle) {
-//   console.log('<response> ', res.params)
-// })
-
-proxy.intercept({
-  phase: 'response',
-  as: 'json'
-}, function (req, res, cycle) {
-  console.log('<response> ', res.json)
-})
-
-// proxy.intercept({
-//   phase: 'response',
-//   as: 'string'
-// }, function (req, res, cycle) {
-//   console.log('<response> ', res.string.length)
-// })
-//
-// proxy.intercept({
-//   phase: 'response',
-//   as: 'buffer'
-// }, function (req, res, cycle) {
-//   console.log('<response> has buffer', res.buffer.length)
-// })
+if (VERBOSE || options.params)  {
+  proxy.intercept({
+    phase: 'request',
+    as: 'params'
+  }, function (req, res, cycle) {
+    if (Object.keys(req.params).length) {
+      console.log('<request> [params]', Object.assign({}, req.params))
+    }
+  })
+}
