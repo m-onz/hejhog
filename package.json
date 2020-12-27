@@ -1,6 +1,6 @@
 {
   "name": "hejhog",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "browser intercepting proxy cli tool",
   "bin": {
     "hejhog": "bin.js"

@@ -8,8 +8,12 @@ I wanted a command line tool to display certain information that was easy to ins
 You must set up a self signed cryptographic key and certificate to intercept https traffic.
 This tool has only been tested in https intercepting mode.
 
+Place self signed certificate and keys in the working directory to automatically use them, or alternatively
+ provide the ```key``` and ```cert``` parameters directly.
+
 ```
 hejhog --help
+hejhog --key ./key.pem --cert ./crt.pem -v
 hejhog --request-headers
 hejhog --response-headers --hide-urls
 hejhog -v # vervose mode
@@ -47,7 +51,8 @@ Go to browser preferences / privacy / certificates... add your self signed certi
 Go to browser preferences / networks / proxy settings: configure http & https proxy to the port
 ```
 
-## installation
+## install
 
-* Not in NPM
-* install locally and run ```npm link```
+```
+npm i hejhog -g
+```

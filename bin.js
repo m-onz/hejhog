@@ -7,8 +7,8 @@ var path = require('path')
 
 var defaults = {
   port: 8080,
-  key: path.normalize(path.join(__dirname, 'key.pem')),
-  cert: path.normalize(path.join(__dirname, 'crt.pem'))
+  key: 'key.pem',
+  cert: 'crt.pem'
 }
 
 var instructions = `
@@ -18,20 +18,21 @@ var instructions = `
 usage: hejhog <options>
 
 example:
-> hejhog -v # server running @ localhost:8080>
+> hejhog -v # server running @ localhost:8080> --key ./key.pem --cert ./crt.pem
 > hejhog --port 9000 > log.txt && tail -f ./log.txt
 > hejhog --json # show json
 > hejhog --request-headers --hide-urls # hide URLs
 
 options (eg. --urls):
-cert (optional)     provide a path to pem self signed cert
-key (optional)      provide a path to pem self signed key
-hide-urls           hide request urls
-request-headers     show request headers
-response-headers    show response headers
-v, V or verbose     show all information
-json                show json data
-params              show form request parameters
+  cert (optional)     provide a path to pem self signed cert
+  key (optional)      provide a path to pem self signed key
+  hide-urls           hide request urls
+  request-headers     show request headers
+  response-headers    show response headers
+  v, V or verbose     show all information
+  json                show json data
+  params              show form request parameters
+
 `
 
 if (Object.keys(argv).length === 1 &&
@@ -51,8 +52,8 @@ if (options.v || options.V  || options.verbose) {
 
 var proxy = hoxy.createServer({
   certAuthority: {
-    key: fs.readFileSync(options.key),
-    cert: fs.readFileSync(options.cert)
+    key: fs.readFileSync(path.normalize(path.join(process.cwd(), options.key))),
+    cert: fs.readFileSync(path.normalize(path.join(process.cwd(), options.cert)))
   }
 }).listen(options.port, function () {
   console.log('<hejhog> listening @', options.port)
