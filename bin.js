@@ -65,28 +65,36 @@ process.on('uncaughtException', function (err) {
   console.error(err.stack, err);
 });
 
-proxy.intercept({
-  phase: 'request'
-}, function(req, resp) {
-  var data = {
-    url: req.url,
-    protocol: req.protocol,
-    port: req.port,
-    hostname: req.hostname,
-    method: req.method,
-    headers: req.headers,
-    query: Object.assign({}, req.query)
-  }
-  if (!VERBOSE && !options['hide-urls']) console.log('<request> ', data.url)
-  if (VERBOSE || options['request-headers']) console.log(data)
-});
+if (options['just-urls']) {
+  return proxy.intercept({
+    phase: 'request'
+  }, function(req, resp) {
+    console.log(' <request> ', req.protocol, '//', req.hostname, req.url)
+  })
+} else {
+  proxy.intercept({
+    phase: 'request'
+  }, function(req, resp) {
+    var data = {
+      url: req.url,
+      protocol: req.protocol,
+      port: req.port,
+      hostname: req.hostname,
+      method: req.method,
+      headers: req.headers,
+      query: Object.assign({}, req.query)
+    }
+    if (!VERBOSE && !options['hide-urls']) console.log(' <request> ', req.protocol, '//', req.hostname, req.url)
+    if (VERBOSE || options['request-headers']) console.log(data)
+  });
 
-proxy.intercept({ phase: 'response' }, function (req, res) {
-  if (VERBOSE || options['response-headers']) console.log(res.headers)
-  if (VERBOSE || !options['hide-urls']) {
-    console.log('<response>', req.url, res.statusCode)
-  }
-})
+  proxy.intercept({ phase: 'response' }, function (req, res) {
+    if (VERBOSE || options['response-headers']) console.log(res.headers)
+    if (VERBOSE || !options['hide-urls']) {
+      console.log('<response>', req.url, res.statusCode)
+    }
+  })
+}
 
 if (VERBOSE || options.json)  {
   proxy.intercept({
