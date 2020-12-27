@@ -84,7 +84,7 @@ if (options['just-urls']) {
 } else {
   proxy.intercept({
     phase: 'request'
-  }, function(req, resp) {
+  }, function(req, resp, cycle) {
     var data = {
       url: req.url,
       protocol: req.protocol,
@@ -96,14 +96,13 @@ if (options['just-urls']) {
     }
     if (!VERBOSE && !options['hide-urls']) console.log(' <request> ', req.protocol, '//', req.hostname, req.url)
     if (VERBOSE || options['request-headers']) console.log(data)
+    cycle.data('query', data.query)
   });
 
-  proxy.intercept({ phase: 'response', as: 'string' }, function (req, res) {
+  proxy.intercept({ phase: 'response', as: 'string' }, function (req, res, cycle) {
     if (VERBOSE || options['response-headers']) console.log(res.headers)
-    if (VERBOSE || !options['hide-urls']) {
-      console.log('<response>', req.url, res.statusCode)
-    }
-    console.log(res.string)
+    if (VERBOSE || !options['hide-urls']) console.log('<response>', req.url, res.statusCode)
+    if (VERBOSE || options.html) console.log(res.string)
   })
 }
 
@@ -133,12 +132,3 @@ if (VERBOSE || options.params)  {
   })
 }
 
-if (VERBOSE || options.html)  {
-  proxy.intercept({
-    phase: 'response',
-    mimeType: 'text/html',
-    as: '$'
-  }, function (req, res) {
-    console.log('<response> ', res.$.html())
-  })
-}
