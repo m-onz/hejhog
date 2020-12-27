@@ -1,9 +1,9 @@
 {
-  "name": "hedgehog",
+  "name": "hejhog",
   "version": "1.0.0",
   "description": "browser intercepting proxy cli tool",
   "bin": {
-    "hedgehog": "bin.js"
+    "hejhog": "bin.js"
   },
   "dependencies": {
     "hoxy": "^3.3.1",

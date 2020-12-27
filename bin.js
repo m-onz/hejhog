@@ -13,15 +13,15 @@ var defaults = {
 
 var instructions = `
 
-<hedgehog> browser intercepting proxy cli tool
+<hejhog> browser intercepting proxy cli tool
 
-usage: hedgehog <options>
+usage: hejhog <options>
 
 example:
-> hedgehog -v # server running @ localhost:8080>
-> hedgehog --port 9000 > log.txt && tail -f ./log.txt
-> hedgehog --json # show json
-> hedgehog --request-headers --hide-urls # hide URLs
+> hejhog -v # server running @ localhost:8080>
+> hejhog --port 9000 > log.txt && tail -f ./log.txt
+> hejhog --json # show json
+> hejhog --request-headers --hide-urls # hide URLs
 
 options (eg. --urls):
 cert (optional)     provide a path to pem self signed cert
@@ -45,7 +45,7 @@ var options = Object.assign(defaults, argv)
 
 var VERBOSE = false;
 if (options.v || options.V  || options.verbose) {
-  console.log('<hedgehog> verbose mode...')
+  console.log('<hejhog> verbose mode...')
   VERBOSE = true;
 }
 
@@ -55,7 +55,7 @@ var proxy = hoxy.createServer({
     cert: fs.readFileSync(options.cert)
   }
 }).listen(options.port, function () {
-  console.log('<hedgehog> listening @', options.port)
+  console.log('<hejhog> listening @', options.port)
 });
 
 if (VERBOSE) proxy.log('error warn debug', process.stderr);
