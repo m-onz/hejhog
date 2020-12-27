@@ -5,6 +5,8 @@ var hoxy = require('hoxy')
 var argv = require('minimist')(process.argv.slice(2))
 var path = require('path')
 
+var INTERCEPT_ON = false;
+
 var defaults = {
   port: 8080,
   key: 'key.pem',
@@ -79,7 +81,7 @@ if (options['just-urls']) {
   return proxy.intercept({
     phase: 'request'
   }, function(req, resp) {
-    console.log(' <request> ', req.protocol, '//', req.hostname, req.url)
+    console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
   })
 } else {
   proxy.intercept({
@@ -94,15 +96,9 @@ if (options['just-urls']) {
       headers: req.headers,
       query: Object.assign({}, req.query)
     }
-    if (!VERBOSE && !options['hide-urls']) console.log(' <request> ', req.protocol, '//', req.hostname, req.url)
+    if (!options['hide-urls']) console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
     if (VERBOSE || options['request-headers']) console.log(data)
     cycle.data('query', data.query)
-  });
-
-  proxy.intercept({ phase: 'response', as: 'string' }, function (req, res, cycle) {
-    if (VERBOSE || options['response-headers']) console.log(res.headers)
-    if (VERBOSE || !options['hide-urls']) console.log('<response>', req.url, res.statusCode)
-    if (VERBOSE || options.html) console.log(res.string)
   })
 }
 
@@ -111,13 +107,13 @@ if (VERBOSE || options.json)  {
     phase: 'request',
     as: 'json'
   }, function (req, res, cycle) {
-    console.log('<request> [json]', Object.assign({}, req.json))
+    console.log(' <request> [json]', Object.assign({}, req.json))
   })
   proxy.intercept({
     phase: 'response',
     as: 'json'
   }, function (req, res, cycle) {
-    console.log('<response> [json]', Object.assign({}, res.json))
+    console.log(' <response> [json]', Object.assign({}, res.json))
   })
 }
 
@@ -127,8 +123,34 @@ if (VERBOSE || options.params)  {
     as: 'params'
   }, function (req, res, cycle) {
     if (Object.keys(req.params).length) {
-      console.log('<request> [params]', Object.assign({}, req.params))
+	  cycle.data('params', Object.assign({}, req.params))
+      console.log(' <request> [params]', Object.assign({}, req.params))
     }
   })
 }
+
+proxy.intercept({ phase: 'response', as: 'string' }, function (req, res, cycle) {
+    if (VERBOSE || options['response-headers']) console.log(res.headers)
+    if (VERBOSE || !options['hide-urls']) console.log(' <response>', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url, res.statusCode)
+    if (VERBOSE || options.html) console.log(res.string)
+
+	/*
+	// testing for XSS
+	var query = cycle.data('query')
+	Object.values(query).forEach(function (value) {
+	  if (res.string.includes(value)) {
+	    console.log('...'.repeat(100))
+	    console.log('input reflected in page response ', value, ' found in response')
+	    console.log('...'.repeat(100))
+ 	  }
+	})
+	var params = cycle.data('params')
+	Object.values(params).forEach(function (value) {
+	  if (res.string.includes(value)) {
+	    console.log('...'.repeat(100))
+	    console.log('params found in page response ', value, ' ')
+	    console.log('...'.repeat(100))
+ 	  }
+	}) */
+  })
 
