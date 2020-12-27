@@ -1,6 +1,14 @@
+#!/usr/bin/env node
 
 var fs = require('fs')
 var hoxy = require('hoxy');
+
+/*
+
+hedgehog
+
+
+*/
 
 var proxy = hoxy.createServer({
   certAuthority: {
@@ -15,6 +23,7 @@ proxy.log('info', process.stdout);
 process.on('uncaughtException', function (err) {
     console.error(err.stack, err);
 });
+
 
 proxy.intercept({
   phase: 'request'
@@ -34,9 +43,9 @@ proxy.intercept({
   }
   console.log(data.url)
   return new Promise(function (resolve, reject) {
-    setTimeout(function () {
+    //setTimeout(function () {
         resolve()
-    }, 36000)
+    //}, 36000)
   })
 });
 
@@ -77,5 +86,3 @@ proxy.intercept({
   .attr('src', 'all your titles are belong to us');
 });
 */
-
-
