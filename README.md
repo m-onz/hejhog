@@ -5,15 +5,16 @@ I wanted a command line tool to display certain information that was easy to ins
 
 ## `usage`
 
-```
-> hejhog --just-urls --help
-
-```
-
+* Create some self signed certificates* first in the current working directory, install hejhog globall and run the `hejhog` command.
 * Configure your browser to use `localhost:8080` as the http and https proxy.
 * Add a self signed certificate authority to the browser.
+```
+> hejhog --help
+> hejhog --just-urls
 
-You will then see the throughput
+```
+
+You will then see the throughput when connecting to `duckduckgo.com` in the browser...
 
 ```
 
@@ -26,7 +27,7 @@ You will then see the throughput
 
 ```
 
-## `intercepting https`
+## `intercepting https` *
 
 You must set up a self signed cryptographic key and certificate to intercept https traffic.
 This tool has only been tested in https intercepting mode.
