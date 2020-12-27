@@ -13,26 +13,26 @@ var defaults = {
 
 var instructions = `
 
-<hejhog> browser intercepting proxy cli tool
+  <hejhog> browser intercepting proxy cli tool
 
-usage: hejhog <options>
+  usage: hejhog <options>
 
-example:
-> hejhog -v # server running @ localhost:8080> --key ./key.pem --cert ./crt.pem
-> hejhog --port 9000 > log.txt && tail -f ./log.txt
-> hejhog --json # show json
-> hejhog --request-headers --hide-urls # hide URLs
+  example:
+    > hejhog -v # server running @ localhost:8080> --key ./key.pem --cert ./crt.pem
+    > hejhog --port 9000 > log.txt && tail -f ./log.txt
+    > hejhog --json # show json
+    > hejhog --request-headers --hide-urls # hide URLs
 
-options (eg. --urls):
-cert (optional)     provide a path to pem self signed cert
-key (optional)      provide a path to pem self signed key
-hide-urls           hide request urls
-just-urls           only show urls
-request-headers     show request headers
-response-headers    show response headers
-v, V or verbose     show all information
-json                show json data
-params              show form request parameters
+  options (eg. --urls):
+    cert (optional)     provide a path to pem self signed cert
+    key (optional)      provide a path to pem self signed key
+    hide-urls           hide request urls
+    just-urls           only show urls
+    request-headers     show request headers
+    response-headers    show response headers
+    v, V or verbose     show all information
+    json                show json data
+    params              show form request parameters
 
 `
 
