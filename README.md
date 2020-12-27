@@ -50,7 +50,7 @@ openssl req -x509 -new -nodes -key ./key.pem -days 1024 -out crt.pem -subj "/C=U
 ```
 Go to browser preferences / privacy / certificates... add your self signed certificate to the "authorities" tab and select the checkboxes.
 ```
-## `configure the browser to hejhog as a proxy server`
+## `configure the browser using hejhog as a proxy server`
 ```
 Go to browser preferences / networks / proxy settings: configure http & https proxy to the port
 ```
@@ -62,6 +62,10 @@ Hejhog works as a ut8 encoded text stream so you can easily store the output of 
 ```
 hejhog -v > ./log.txt
 ```
+
+## `issues`
+
+Please report any issues.
 
 ## `install`
 
