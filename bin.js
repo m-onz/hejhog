@@ -73,11 +73,11 @@ if (VERBOSE && options.warnings) proxy.log('info', process.stdout);
 
 process.on('uncaughtException', function (err) {
   if (VERBOSE && options.warnings) console.error(err.stack, err);
-});
+})
 
 if (options['just-urls']) {
   return proxy.intercept({
-    phase: 'request'
+    phase: 'response'
   }, function(req, resp) {
     console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
   })
@@ -85,7 +85,10 @@ if (options['just-urls']) {
   proxy.intercept({
     phase: 'request'
   }, function(req, resp, cycle) {
-    var data = {
+    cycle.data('query', req.query)
+  })
+  proxy.intercept({ phase: 'response', as: 'string' }, function (req, res, cycle) {
+		var data = {
       url: req.url,
       protocol: req.protocol,
       port: req.port,
@@ -94,9 +97,28 @@ if (options['just-urls']) {
       headers: req.headers,
       query: Object.assign({}, req.query)
     }
-    if (!options['hide-urls']) console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
-    if (VERBOSE || options['request-headers']) console.log(data)
-    cycle.data('query', data.query)
+		if (VERBOSE || options['request-headers']) console.log(data)
+    if (VERBOSE || options['response-headers']) console.log(res.headers)
+    if (VERBOSE || options.html) console.log(res.string)
+    if (req.headers.accept.startsWith('image') || !options['hide-urls']) console.log(' <response> [IMAGE] ', req.method.toUpperCase(), req.hostname, ' ', req.url, res.statusCode)
+		  else console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
+	  // testing for XSS
+	  var query = cycle.data('query')
+	  Object.values(query).forEach(function (value) {
+		  if (res.string.includes(value)) {
+		    console.log('...'.repeat(100))
+		    console.log('input reflected in page response ', value, ' found in response')
+		    console.log('...'.repeat(100))
+		  }
+	  })
+	  var params = cycle.data('params')
+	  Object.values(params).forEach(function (value) {
+		  if (res.string.includes(value)) {
+		    console.log('...'.repeat(100))
+		    console.log('params found in page response ', value, ' ')
+		    console.log('...'.repeat(100))
+		  }
+	  })
   })
 }
 
@@ -126,28 +148,5 @@ if (VERBOSE || options.params)  {
     }
   })
 }
-
-proxy.intercept({ phase: 'response', as: 'string' }, function (req, res, cycle) {
-  if (VERBOSE || options['response-headers']) console.log(res.headers)
-  if (VERBOSE || !options['hide-urls']) console.log(' <response>', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url, res.statusCode)
-  if (VERBOSE || options.html) console.log(res.string)
-	// testing for XSS
-	var query = cycle.data('query')
-	Object.values(query).forEach(function (value) {
-		if (res.string.includes(value)) {
-		  console.log('...'.repeat(100))
-		  console.log('input reflected in page response ', value, ' found in response')
-		  console.log('...'.repeat(100))
-		}
-	})
-	var params = cycle.data('params')
-	Object.values(params).forEach(function (value) {
-		if (res.string.includes(value)) {
-		  console.log('...'.repeat(100))
-		  console.log('params found in page response ', value, ' ')
-		  console.log('...'.repeat(100))
-		}
-	})
-})
 
 
