@@ -1,6 +1,6 @@
 # hejhog
 
-A simple browser fowarding proxy cli tool. Configure the verbosity and output of the proxy using command line flags. Connect your browser to the proxy, generate and add a certificate to add to the browser. This allows the script to intercept https traffic.
+I wanted a simple browser fowarding proxy cli tool that behaved like tshark where you can configure the verbosity and output of the proxy using command line flags.
 I wanted a command line tool to display certain information that was easy to install on different operating systems. This tool has been tested on linux and windows.
 
 ## usage
