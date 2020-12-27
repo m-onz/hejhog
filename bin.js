@@ -34,6 +34,10 @@ var instructions = `
     json                show json data
     params              show form request parameters
 
+  generating self signed certificates (with OpenSSL)
+    openssl genrsa -out ./key.pem 2048
+    openssl req -x509 -new -nodes -key ./key.pem -days 1024 -out crt.pem -subj "/C=US/ST=Utah/L=Provo/O=ACME Signing Authority Inc/CN=example.com"
+
 `
 
 if (Object.keys(argv).length === 1 &&
