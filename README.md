@@ -1,9 +1,20 @@
 # hejhog
 
-A simple browser intercepting proxy cli tool. Configure the verbosity and output of the proxy using command line flags. Connect your browser to the proxy, generate and add a certificate to add to the browser. This allows the script to intercept https traffic.
+A simple browser fowarding proxy cli tool. Configure the verbosity and output of the proxy using command line flags. Connect your browser to the proxy, generate and add a certificate to add to the browser. This allows the script to intercept https traffic.
 I wanted a command line tool to display certain information that was easy to install on different operating systems. This tool has been tested on linux and windows.
 
 ## usage
+
+```
+> hejhog --just-urls
+
+<hejhog> listening @ 8080
+ <request>  https: // duckduckgo.com /
+ <request>  https: // duckduckgo.com /font/ProximaNova-Reg-webfont.woff2
+ <request>  https: // incoming.telemetry.mozilla.org /submit/activity-stream/sessions/1/0da2c611-8fef-4041-8215-dc167fbf2922
+ <request>  https: // improving.duckduckgo.com /t/hi?2512489&b=firefox&atbi=false&ei=true&i=false&d=d&l=en_US&p=windows&atb=v253-5&va=_&atbva=_&g=__
+ <request>  https: // duckduckgo.com /ac/?q=k&kl=wt-wt
+```
 
 You must set up a self signed cryptographic key and certificate to intercept https traffic.
 This tool has only been tested in https intercepting mode.
