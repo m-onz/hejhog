@@ -1,5 +1,7 @@
 # `hejhog`
 
+<img src="Hipster-hedgehog-black.jpg" />
+
 I wanted a simple unixy browser fowarding proxy cli tool that behaved like tshark where you can configure the verbosity and output of the proxy using command line flags.
 I wanted a command line tool to display certain information that was easy to install on different operating systems. This tool has been tested on linux and windows.
 
