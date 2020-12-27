@@ -2,7 +2,7 @@
 
 <img src="Hipster-hedgehog-black.jpg" />
 
-A simple browser fowarding proxy cli tool useful for analysing web applications.
+A simple browser forwarding proxy cli tool useful for analysing web applications.
 
 ## `usage`
 
