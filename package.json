@@ -1,6 +1,6 @@
 {
   "name": "hejhog",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "browser fowarding proxy cli tool",
   "bin": {
     "hejhog": "bin.js"
@@ -12,7 +12,7 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/m-onz/hedgehog.git"
+    "url": "git+https://github.com/m-onz/hejhog.git"
   },
   "author": "m-onz",
   "license": "MIT",
