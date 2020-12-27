@@ -24,14 +24,15 @@ example:
 > hejhog --request-headers --hide-urls # hide URLs
 
 options (eg. --urls):
-  cert (optional)     provide a path to pem self signed cert
-  key (optional)      provide a path to pem self signed key
-  hide-urls           hide request urls
-  request-headers     show request headers
-  response-headers    show response headers
-  v, V or verbose     show all information
-  json                show json data
-  params              show form request parameters
+cert (optional)     provide a path to pem self signed cert
+key (optional)      provide a path to pem self signed key
+hide-urls           hide request urls
+just-urls           only show urls
+request-headers     show request headers
+response-headers    show response headers
+v, V or verbose     show all information
+json                show json data
+params              show form request parameters
 
 `
 
