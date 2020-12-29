@@ -79,7 +79,7 @@ if (options['just-urls']) {
   return proxy.intercept({
     phase: 'response'
   }, function(req, resp) {
-    console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
+    console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url, resp.statusCode)
   })
 } else {
   /*  proxy.intercept({
@@ -101,13 +101,14 @@ if (options['just-urls']) {
     if (VERBOSE || options['response-headers']) console.log(res.headers)
 
 	if (req.headers.accept.startsWith('text') && res.buffer && res.buffer.length) {
-		if (VERBOSE && !options['hide-urls']) console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
+		if (!options['hide-urls']) console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url, res.statusCode)
 		if (VERBOSE || options.html) console.log(res.string);
 	} else if (req.headers.accept.startsWith('image') && !options['hide-urls']) {
 		console.log(' <response> [IMAGE] ', req.method.toUpperCase(), req.hostname, ' ', req.url, res.statusCode);
 	}
 
     // testing for XSS
+	/*
     var query = data.query
     Object.values(query).forEach(function (value) {
       if (res.string.includes(value)) {
@@ -124,7 +125,7 @@ if (options['just-urls']) {
         console.log('...'.repeat(100))
       }
     })
-  })
+  })*/
 }
 
 if (VERBOSE || options.json)  {
