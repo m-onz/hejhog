@@ -124,8 +124,8 @@ if (options['just-urls']) {
         console.log('params found in page response ', value, ' ')
         console.log('...'.repeat(100))
       }
-    })
-  })*/
+    })*/
+  })
 }
 
 if (VERBOSE || options.json)  {
