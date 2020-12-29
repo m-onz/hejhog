@@ -82,11 +82,11 @@ if (options['just-urls']) {
     console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
   })
 } else {
-  proxy.intercept({
+  /*  proxy.intercept({
     phase: 'request'
   }, function(req, resp, cycle) {
     cycle.data('query', req.query)
-  })
+  })*/
   proxy.intercept({ phase: 'response', as: 'string' }, function (req, res, cycle) {
     var data = {
       url: req.url,
@@ -99,11 +99,14 @@ if (options['just-urls']) {
     }
     if (VERBOSE || options['request-headers']) console.log(data)
     if (VERBOSE || options['response-headers']) console.log(res.headers)
-    if (VERBOSE || options.html) console.log(res.string)
-    if (req.headers.accept.startsWith('image') || !options['hide-urls']) console.log(' <response> [IMAGE] ', req.method.toUpperCase(), req.hostname, ' ', req.url, res.statusCode)
-    else console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
+    if (req.headers.accept.startsWith('image') || !options['hide-urls']) {
+      console.log(' <response> [IMAGE] ', req.method.toUpperCase(), req.hostname, ' ', req.url, res.statusCode);
+    } else {
+      if (VERBOSE || options.html) console.log(req.string)
+      console.log(' <request> ', req.method.toUpperCase(), ' ', req.protocol, '//', req.hostname, req.url)
+    }
     // testing for XSS
-    var query = cycle.data('query')
+    var query = data.query
     Object.values(query).forEach(function (value) {
       if (res.string.includes(value)) {
         console.log('...'.repeat(100))
