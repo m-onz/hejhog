@@ -108,7 +108,6 @@ if (options['just-urls']) {
 	}
 
     // testing for XSS
-	/*
     var query = data.query
     Object.values(query).forEach(function (value) {
       if (res.string.includes(value)) {
@@ -124,7 +123,7 @@ if (options['just-urls']) {
         console.log('params found in page response ', value, ' ')
         console.log('...'.repeat(100))
       }
-    })*/
+    })
   })
 }
 
